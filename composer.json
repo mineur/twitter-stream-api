@@ -1,0 +1,31 @@
+{
+    "name": "alexhoma/twitter-stream-api",
+    "description": "Collector of streaming twitter data",
+    "type": "php-library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Casajuana",
+            "email": "alexcm.14@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "commerceguys/guzzle-oauth2-plugin": "^2.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alexhoma\\TwitterStreamApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alexhoma\\TwitterStreamApiTest\\": "test/"
+        }
+    }
+}
