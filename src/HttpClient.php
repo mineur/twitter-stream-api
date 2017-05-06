@@ -17,7 +17,7 @@ final class HttpClient
      * Api endpoint
      * @var string
      */
-    const STREAMING_ENDPOINT = 'https://stream.twitter.com/1.1';
+    const STREAMING_ENDPOINT = 'https://stream.twitter.com/1.1/';
 
     /** @var Oauth1 */
     private $oauth;
@@ -40,16 +40,13 @@ final class HttpClient
         string $tokenSecret
     )
     {
-        $stack = HandlerStack::create();
-        $oauth = new Oauth1([
+        $this->stack = HandlerStack::create();
+        $this->oauth = new Oauth1([
             'consumer_key'    => $consumerKey,
             'consumer_secret' => $consumerSecret,
             'token'           => $token,
             'token_secret'    => $tokenSecret,
         ]);
-        $stack->push($oauth);
-
-        $this->stack = $stack;
     }
 
     /**
@@ -59,6 +56,8 @@ final class HttpClient
      */
     public function __invoke(): Client
     {
+        $this->stack->push($this->oauth);
+
         return new Client([
             'base_uri' => self::STREAMING_ENDPOINT,
             'handler'  => $this->stack,

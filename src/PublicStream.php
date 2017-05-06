@@ -1,8 +1,9 @@
 <?php
 
 namespace Alexhoma\TwitterStreamApi;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Stream;
 
-use Alexhoma\TwitterStreamApi\HttpClient;
 
 /**
  * Class PublicStream
@@ -12,9 +13,6 @@ use Alexhoma\TwitterStreamApi\HttpClient;
  */
 final class PublicStream
 {
-    /** @var string */
-    const STREAMING_ENDPOINT = 'https://stream.twitter.com/1.1/';
-
     /** @var HttpClient */
     private $httpClient;
 
@@ -27,7 +25,12 @@ final class PublicStream
         $this->httpClient = $httpClient;
     }
 
-    public function open($keyword)
+    /**
+     * Open stream
+     *
+     * @param $keyword
+     */
+    public function open(string $keyword)
     {
         $body = $this->listenFor($keyword);
 
@@ -37,25 +40,38 @@ final class PublicStream
         }
     }
 
+    /**
+     * Listen for unique keyword
+     *
+     * @todo add keywords array
+     * @param string $keyword
+     * @return \Psr\Http\Message\StreamInterface
+     */
     private function listenFor(string $keyword)
     {
         $client = $this->httpClient;
 
-//        return $client()->post('statuses/filter.json', [
-//            'form_params' => [
-//                'track' => $keyword,
-//            ],
-//        ]);
-
-        return $client()->get('/statuses/sample.json');
-
+        return $client()->post('statuses/filter.json', [
+            'form_params' => [
+                'track' => $keyword,
+            ],
+        ])->getBody();
     }
 
-    private function readStreamLine($stream, $maxLength = null, $eol = PHP_EOL)
-    {
+    /**
+     * Read Stream Line
+     *
+     * @param Stream $stream
+     * @param int|null $maxLength
+     * @return string
+     */
+    private function readStreamLine(
+        Stream $stream,
+        int $maxLength = null
+    ) {
         $buffer    = '';
         $size      = 0;
-        $negEolLen = -strlen($eol);
+        $negEolLen = -strlen(PHP_EOL);
 
         while (!$stream->eof()) {
             if (false === ($byte = $stream->read(1))) {
@@ -63,7 +79,7 @@ final class PublicStream
             }
             $buffer .= $byte;
 
-            if (++$size == $maxLength || substr($buffer, $negEolLen) === $eol) {
+            if (++$size == $maxLength || substr($buffer, $negEolLen) === PHP_EOL) {
                 break;
             }
         }
