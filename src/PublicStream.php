@@ -3,6 +3,8 @@
 namespace Alexhoma\TwitterStreamApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 
 
 /**
@@ -28,15 +30,20 @@ final class PublicStream
     /**
      * Open stream
      *
-     * @param $keyword
+     * @param array $keyword
+     * @return mixed
      */
-    public function open(string $keyword)
+    public function open(array $keyword)
     {
         $body = $this->listenFor($keyword);
 
         while (!$body->eof()) {
-            $tweet = json_decode($this->readStreamLine($body), true);
-            echo $tweet['text'] . PHP_EOL;
+            $tweet = json_decode(
+                $this->readStreamLine($body),
+                true
+            );
+
+            echo $tweet['text'].PHP_EOL;
         }
     }
 
@@ -44,16 +51,17 @@ final class PublicStream
      * Listen for unique keyword
      *
      * @todo add keywords array
-     * @param string $keyword
-     * @return \Psr\Http\Message\StreamInterface
+     * @param array $keywords
+     * @return StreamInterface
      */
-    private function listenFor(string $keyword)
+    private function listenFor(array $keywords)
     {
         $client = $this->httpClient;
+        $keywords = implode(',', $keywords);
 
         return $client()->post('statuses/filter.json', [
             'form_params' => [
-                'track' => $keyword,
+                'track' => $keywords,
             ],
         ])->getBody();
     }
