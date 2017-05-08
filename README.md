@@ -1,6 +1,7 @@
 # Twitter Streaming API
-Yes. Another Twitter streaming Api PHP library.
+Yes. Another Twitter streaming Api PHP library. For now it just works on public stream, using the filter method.<br>
 
+### Basic initialization
 ```php
 use Alexhoma\TwitterStreamApi\HttpClient;
 use Alexhoma\TwitterStreamApi\PublicStream;
@@ -11,5 +12,6 @@ $httpClient = new HttpClient(
     'access_token',
     'access_token_secret'
 );
-(new PublicStream($httpClient))->open('hello');
+PublicStream::open($httpClient)
+    ->listenFor(['keywords','list']);
 ```

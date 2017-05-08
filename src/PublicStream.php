@@ -22,20 +22,31 @@ final class PublicStream
      * PublicStream constructor.
      * @param \Alexhoma\TwitterStreamApi\HttpClient $httpClient
      */
-    public function __construct(HttpClient $httpClient)
+    private function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
     /**
-     * Open stream
+     * Open the stream
      *
-     * @param array $keyword
+     * @param HttpClient $httpClient
+     * @return PublicStream
+     */
+    public static function open(HttpClient $httpClient)
+    {
+        return new self($httpClient);
+    }
+
+    /**
+     * Listen keywords on stream
+     *
+     * @param array $keywords
      * @return mixed
      */
-    public function open(array $keyword)
+    public function listenFor(array $keywords)
     {
-        $body = $this->listenFor($keyword);
+        $body = $this->search($keywords);
 
         while (!$body->eof()) {
             $tweet = json_decode(
@@ -48,13 +59,12 @@ final class PublicStream
     }
 
     /**
-     * Listen for unique keyword
+     * Search for keywords
      *
-     * @todo add keywords array
      * @param array $keywords
      * @return StreamInterface
      */
-    private function listenFor(array $keywords)
+    private function search(array $keywords)
     {
         $client = $this->httpClient;
         $keywords = implode(',', $keywords);
@@ -62,6 +72,7 @@ final class PublicStream
         return $client()->post('statuses/filter.json', [
             'form_params' => [
                 'track' => $keywords,
+                'language' => 'es',
             ],
         ])->getBody();
     }
