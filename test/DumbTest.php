@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexhoma\TwitterStreamApiTest;
+namespace Mineur\TwitterStreamApiTest;
 
 use PHPUnit\Framework\TestCase;
 

@@ -3,14 +3,14 @@ Yes. Another Twitter streaming Api PHP library. For now it just works on public 
 
 ### Installation
 ```php
-composer require alexhoma/twitter-stream-api
+composer require Mineur/twitter-stream-api
 ```
 
 ### Basic initialization
 Instantiate the GuzzleHttpClient with your Twitter api tokens. And start consuming Twitter's Stream with some keywords! :)
 ```php
-use Alexhoma\TwitterStreamApi\HttpClient;
-use Alexhoma\TwitterStreamApi\PublicStream;
+use Mineur\TwitterStreamApi\HttpClient;
+use Mineur\TwitterStreamApi\PublicStream;
 
 $httpClient = new HttpClient(
     'consumer_key',
@@ -26,7 +26,7 @@ PublicStream::open($httpClient)
 ### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
-// Instantiate again your http client
+// Instantiate the guzzle http client with your twitter app tokens
 
 PublicStream::open($httpClient)
     ->listenFor(['keywords','list'])

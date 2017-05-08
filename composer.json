@@ -1,5 +1,5 @@
 {
-    "name": "alexhoma/twitter-stream-api",
+    "name": "Mineur/twitter-stream-api",
     "description": "Collector of streaming twitter data",
     "type": "php-library",
     "license": "MIT",
@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Alexhoma\\TwitterStreamApi\\": "src/"
+            "Mineur\\TwitterStreamApi\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Alexhoma\\TwitterStreamApiTest\\": "test/"
+            "Mineur\\TwitterStreamApiTest\\": "test/"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexhoma\TwitterStreamApi\Http;
+namespace Mineur\TwitterStreamApi\Http;
 
 interface HttpClient
 {

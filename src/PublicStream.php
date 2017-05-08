@@ -1,17 +1,17 @@
 <?php
 
-namespace Alexhoma\TwitterStreamApi;
+namespace Mineur\TwitterStreamApi;
 
 use GuzzleHttp\Psr7\Stream;
-use Alexhoma\TwitterStreamApi\Http\GuzzleHttpClient;
-use Alexhoma\TwitterStreamApi\Http\HttpClient;
+use Mineur\TwitterStreamApi\Http\GuzzleHttpClient;
+use Mineur\TwitterStreamApi\Http\HttpClient;
 
 
 /**
  * Class PublicStream
  * Offers samples of the public data flowing through Twitter.
  *
- * @package Alexhoma\TwitterStreamApi
+ * @package Mineur\TwitterStreamApi
  */
 final class PublicStream
 {
