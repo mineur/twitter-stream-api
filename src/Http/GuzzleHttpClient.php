@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexhoma\TwitterStreamApi;
+namespace Alexhoma\TwitterStreamApi\Http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
@@ -8,10 +8,10 @@ use GuzzleHttp\HandlerStack;
 
 
 /**
- * Class HttpClient
+ * Class GuzzleHttpClient
  * @package Alexhoma\TwitterStreamApi
  */
-final class HttpClient
+final class GuzzleHttpClient implements HttpClient
 {
     /**
      * Api endpoint
@@ -26,7 +26,7 @@ final class HttpClient
     private $stack;
 
     /**
-     * HttpClient constructor.
+     * GuzzleHttpClient constructor.
      *
      * @param string $consumerKey
      * @param string $consumerSecret

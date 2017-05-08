@@ -1,10 +1,10 @@
 <?php
 
 namespace Alexhoma\TwitterStreamApi;
-use GuzzleHttp\Client;
+
 use GuzzleHttp\Psr7\Stream;
-use Psr\Http\Message\StreamInterface;
-use SebastianBergmann\CodeCoverage\Report\PHP;
+use Alexhoma\TwitterStreamApi\Http\GuzzleHttpClient;
+use Alexhoma\TwitterStreamApi\Http\HttpClient;
 
 
 /**
@@ -15,38 +15,42 @@ use SebastianBergmann\CodeCoverage\Report\PHP;
  */
 final class PublicStream
 {
-    /** @var HttpClient */
+    /** @var GuzzleHttpClient */
     private $httpClient;
 
-    /**
-     * PublicStream constructor.
-     * @param \Alexhoma\TwitterStreamApi\HttpClient $httpClient
-     */
+    /** @var $keywords */
+    private $keywords;
+
+    /** @var $language */
+    private $language;
+
     private function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
-    /**
-     * Open the stream
-     *
-     * @param HttpClient $httpClient
-     * @return PublicStream
-     */
     public static function open(HttpClient $httpClient)
     {
         return new self($httpClient);
     }
 
-    /**
-     * Listen keywords on stream
-     *
-     * @param array $keywords
-     * @return mixed
-     */
+    public function setLanguage(string $language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
     public function listenFor(array $keywords)
     {
-        $body = $this->search($keywords);
+        $this->keywords = $keywords;
+
+        return $this;
+    }
+
+    public function consume()
+    {
+        $body = $this->requestData();
 
         while (!$body->eof()) {
             $tweet = json_decode(
@@ -54,36 +58,24 @@ final class PublicStream
                 true
             );
 
-            echo $tweet['text'].PHP_EOL;
+            echo $tweet['text'];
         }
     }
 
-    /**
-     * Search for keywords
-     *
-     * @param array $keywords
-     * @return StreamInterface
-     */
-    private function search(array $keywords)
+    private function requestData()
     {
         $client = $this->httpClient;
-        $keywords = implode(',', $keywords);
+        $keywords = implode(',', $this->keywords);
 
         return $client()->post('statuses/filter.json', [
             'form_params' => [
                 'track' => $keywords,
-                'language' => 'es',
+                'language' => ($this->language)?
+                    $this->language : '',
             ],
         ])->getBody();
     }
 
-    /**
-     * Read Stream Line
-     *
-     * @param Stream $stream
-     * @param int|null $maxLength
-     * @return string
-     */
     private function readStreamLine(
         Stream $stream,
         int $maxLength = null
