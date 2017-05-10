@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 final class DumbTest extends TestCase
 {
     /** @test */
-    public function it_should_return_something()
+    public function it_should_return_a_dummy_test()
     {
-        // TODO: assert something
+        $this->assertEquals(1, 1);
     }
 }
