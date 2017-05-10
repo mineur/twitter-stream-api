@@ -1,9 +1,9 @@
 # Twitter Streaming API
-Yes. Another Twitter streaming Api PHP library. For now it just works on public stream, using the filter method.<br>
+Yes. Another Twitter Stream PHP library. For now it just works on public stream, using the filter method.<br>
 
 ### Installation
 ```php
-composer require Mineur/twitter-stream-api
+composer require mineur/twitter-stream-api
 ```
 
 ### Basic initialization

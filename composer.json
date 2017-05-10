@@ -1,5 +1,5 @@
 {
-    "name": "Mineur/twitter-stream-api",
+    "name": "mineur/twitter-stream-api",
     "description": "Collector of streaming twitter data",
     "type": "php-library",
     "license": "MIT",
