@@ -24,16 +24,29 @@ final class PublicStream
     /** @var $language */
     private $language;
 
+    /**
+     * PublicStream constructor.
+     *
+     * @param HttpClient $httpClient
+     */
     private function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * @param HttpClient $httpClient
+     * @return PublicStream
+     */
     public static function open(HttpClient $httpClient)
     {
         return new self($httpClient);
     }
 
+    /**
+     * @param string $language
+     * @return $this
+     */
     public function setLanguage(string $language)
     {
         $this->language = $language;
@@ -41,6 +54,10 @@ final class PublicStream
         return $this;
     }
 
+    /**
+     * @param array $keywords
+     * @return $this
+     */
     public function listenFor(array $keywords)
     {
         $this->keywords = $keywords;
@@ -48,6 +65,9 @@ final class PublicStream
         return $this;
     }
 
+    /**
+     * Start consuming the Stream API
+     */
     public function consume()
     {
         $body = $this->requestData();
@@ -58,7 +78,7 @@ final class PublicStream
                 true
             );
 
-            echo $tweet['text'];
+            dump(Tweet::fromArray($tweet));
         }
     }
 
