@@ -4,5 +4,15 @@ namespace Mineur\TwitterStreamApi\Http;
 
 interface HttpClient
 {
-    public function __invoke();
+    /**
+     * Post
+     *
+     * @param string $endpoint
+     * @param array $options
+     * @return mixed
+     */
+    public function post(
+        string $endpoint,
+        array $options
+    );
 }

@@ -52,17 +52,23 @@ final class GuzzleHttpClient implements HttpClient
     /**
      * Invoke method.
      *
-     * @return Client
+     * @param string $endpoint
+     * @param array $options
+     * @return mixed|\Psr\Http\Message\StreamInterface
      */
-    public function __invoke(): Client
+    public function post(string $endpoint, array $options)
     {
         $this->stack->push($this->oauth);
 
-        return new Client([
+        $client = new Client([
             'base_uri' => self::STREAMING_ENDPOINT,
             'handler'  => $this->stack,
             'auth'     => 'oauth',
             'stream'   => true,
         ]);
+
+        return $client
+            ->post($endpoint, $options)
+            ->getBody();
     }
 }

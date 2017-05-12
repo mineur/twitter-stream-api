@@ -36,3 +36,6 @@ PublicStream::open($httpClient)
 
 ### Remember
 You cannot open two stream lines with the same account in Twitter Stream Api.
+
+### TODO
+* STREAMING_ENDPOINT should be changed by client, using simple string injection

@@ -84,16 +84,14 @@ final class PublicStream
 
     private function requestData()
     {
-        $client = $this->httpClient;
         $keywords = implode(',', $this->keywords);
 
-        return $client()->post('statuses/filter.json', [
+        return $this->httpClient->post('statuses/filter.json', [
             'form_params' => [
                 'track' => $keywords,
-                'language' => ($this->language)?
-                    $this->language : '',
+                'language' => $this->language ?? ''
             ],
-        ])->getBody();
+        ]);
     }
 
     private function readStreamLine(
