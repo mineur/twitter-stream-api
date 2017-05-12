@@ -50,7 +50,7 @@ final class GuzzleHttpClient implements HttpClient
     }
 
     /**
-     * Invoke method.
+     * API Post request
      *
      * @param string $endpoint
      * @param array $options

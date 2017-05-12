@@ -2,7 +2,7 @@
 
 namespace Mineur\TwitterStreamApi;
 
-final    class Tweet
+class Tweet
 {
     /**
      * @var string

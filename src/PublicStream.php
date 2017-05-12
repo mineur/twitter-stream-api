@@ -35,19 +35,23 @@ final class PublicStream
     }
 
     /**
+     * Open the stream connection
+     *
      * @param HttpClient $httpClient
      * @return PublicStream
      */
-    public static function open(HttpClient $httpClient)
+    public static function open(HttpClient $httpClient): self
     {
         return new self($httpClient);
     }
 
     /**
+     * Set Tweet search language
+     *
      * @param string $language
-     * @return $this
+     * @return PublicStream
      */
-    public function setLanguage(string $language)
+    public function setLanguage(string $language): self
     {
         $this->language = $language;
 
@@ -55,10 +59,12 @@ final class PublicStream
     }
 
     /**
+     * Set keywords to track
+     *
      * @param array $keywords
-     * @return $this
+     * @return PublicStream
      */
-    public function listenFor(array $keywords)
+    public function listenFor(array $keywords): self
     {
         $this->keywords = $keywords;
 
@@ -78,8 +84,19 @@ final class PublicStream
                 true
             );
 
-            dump(Tweet::fromArray($tweet));
+            $this->returnTweetObject($tweet);
         }
+    }
+
+    /**
+     * Return an hydrated tweet object
+     *
+     * @param array $tweet
+     * @return Tweet
+     */
+    private function returnTweetObject(array $tweet): Tweet
+    {
+        return Tweet::fromArray($tweet);
     }
 
     private function requestData()
@@ -88,7 +105,7 @@ final class PublicStream
 
         return $this->httpClient->post('statuses/filter.json', [
             'form_params' => [
-                'track' => $keywords,
+                'track'    => $keywords,
                 'language' => $this->language ?? ''
             ],
         ]);
@@ -97,7 +114,8 @@ final class PublicStream
     private function readStreamLine(
         Stream $stream,
         int $maxLength = null
-    ) {
+    ) : string
+    {
         $buffer    = '';
         $size      = 0;
         $negEolLen = -strlen(PHP_EOL);

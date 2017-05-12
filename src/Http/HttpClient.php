@@ -5,7 +5,7 @@ namespace Mineur\TwitterStreamApi\Http;
 interface HttpClient
 {
     /**
-     * Post
+     * Post request
      *
      * @param string $endpoint
      * @param array $options
