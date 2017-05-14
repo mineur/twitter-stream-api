@@ -26,8 +26,7 @@ PublicStream::open($httpClient)
 ### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
-// Instantiate the guzzle http client with your twitter app tokens
-
+$httpClient = new HttpClient(/* Your keys */);
 PublicStream::open($httpClient)
     ->listenFor(['keywords','list'])
     ->setLanguage('es')

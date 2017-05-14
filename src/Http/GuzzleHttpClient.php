@@ -3,6 +3,7 @@
 namespace Mineur\TwitterStreamApi\Http;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use GuzzleHttp\HandlerStack;
 
@@ -56,7 +57,10 @@ final class GuzzleHttpClient implements HttpClient
      * @param array $options
      * @return mixed|\Psr\Http\Message\StreamInterface
      */
-    public function post(string $endpoint, array $options)
+    public function post(
+        string $endpoint,
+        array $options
+    ) : array
     {
         $this->stack->push($this->oauth);
 
@@ -67,8 +71,52 @@ final class GuzzleHttpClient implements HttpClient
             'stream'   => true,
         ]);
 
-        return $client
+        $body = $client
             ->post($endpoint, $options)
             ->getBody();
+
+        while (!$body->eof()) {
+            $tweet = json_decode(
+                $this->readStreamLine($body),
+                true
+            );
+
+            return $tweet;
+            $this->returnResponse($tweet);
+        }
+    }
+
+    public function returnResponse($tweet)
+    {
+        dump($tweet);
+        return $tweet;
+    }
+
+    /**
+     * @param Stream $stream
+     * @param int|null $maxLength
+     * @return string
+     */
+    public function readStreamLine(
+        Stream $stream,
+        int $maxLength = null
+    ) : string
+    {
+        $buffer    = '';
+        $size      = 0;
+        $negEolLen = -strlen(PHP_EOL);
+
+        while (!$stream->eof()) {
+            if (false === ($byte = $stream->read(1))) {
+                return $buffer;
+            }
+            $buffer .= $byte;
+
+            if (++$size == $maxLength || substr($buffer, $negEolLen) === PHP_EOL) {
+                break;
+            }
+        }
+
+        return $buffer;
     }
 }

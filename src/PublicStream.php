@@ -2,9 +2,10 @@
 
 namespace Mineur\TwitterStreamApi;
 
-use GuzzleHttp\Psr7\Stream;
 use Mineur\TwitterStreamApi\Http\GuzzleHttpClient;
 use Mineur\TwitterStreamApi\Http\HttpClient;
+use Mineur\TwitterStreamApi\Stream\GuzzleStream;
+use Mineur\TwitterStreamApi\Stream\Stream;
 
 
 /**
@@ -42,8 +43,44 @@ final class PublicStream
      */
     public static function open(HttpClient $httpClient): self
     {
-        return new self($httpClient);
+        return new self(
+            $httpClient,
+            new GuzzleStream()
+        );
     }
+
+    /**
+     * Start consuming the Stream API
+     */
+    public function consume()
+    {
+        $keywords = implode(',', $this->keywords);
+        $language = $this->language ?? '';
+
+        $tweet = $this->httpClient->post('statuses/filter.json', [
+            'form_params' => [
+                'track'    => $keywords,
+                'language' => $language
+            ],
+        ]);
+//        $tweet = json_decode($tweet, true);
+
+        $this->returnTweetObject($tweet);
+    }
+
+    /**
+     * Return hydrated Tweet object
+     *
+     * @param array $tweet
+     * @return Tweet
+     */
+    private function returnTweetObject(array $tweet): Tweet
+    {
+        dump(Tweet::fromArray($tweet));
+
+        return Tweet::fromArray($tweet);
+    }
+
 
     /**
      * Set Tweet search language
@@ -69,68 +106,5 @@ final class PublicStream
         $this->keywords = $keywords;
 
         return $this;
-    }
-
-    /**
-     * Start consuming the Stream API
-     */
-    public function consume()
-    {
-        $body = $this->requestData();
-
-        while (!$body->eof()) {
-            $tweet = json_decode(
-                $this->readStreamLine($body),
-                true
-            );
-
-            $this->returnTweetObject($tweet);
-        }
-    }
-
-    /**
-     * Return an hydrated tweet object
-     *
-     * @param array $tweet
-     * @return Tweet
-     */
-    private function returnTweetObject(array $tweet): Tweet
-    {
-        return Tweet::fromArray($tweet);
-    }
-
-    private function requestData()
-    {
-        $keywords = implode(',', $this->keywords);
-
-        return $this->httpClient->post('statuses/filter.json', [
-            'form_params' => [
-                'track'    => $keywords,
-                'language' => $this->language ?? ''
-            ],
-        ]);
-    }
-
-    private function readStreamLine(
-        Stream $stream,
-        int $maxLength = null
-    ) : string
-    {
-        $buffer    = '';
-        $size      = 0;
-        $negEolLen = -strlen(PHP_EOL);
-
-        while (!$stream->eof()) {
-            if (false === ($byte = $stream->read(1))) {
-                return $buffer;
-            }
-            $buffer .= $byte;
-
-            if (++$size == $maxLength || substr($buffer, $negEolLen) === PHP_EOL) {
-                break;
-            }
-        }
-
-        return $buffer;
     }
 }

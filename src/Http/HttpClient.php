@@ -14,5 +14,5 @@ interface HttpClient
     public function post(
         string $endpoint,
         array $options
-    );
+    ): array;
 }
