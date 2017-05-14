@@ -34,7 +34,13 @@ PublicStream::open($httpClient)
 ```
 
 ### Remember
-You cannot open two stream lines with the same account in Twitter Stream Api.
+Working with the Twitter Stream you cannot open two stream lines with the same account. You should create another app account and raise a new instance of this library.
 
-### TODO
+### Tests
+```shell
+composer install
+./bin/vendor/phpunit
+```
+
+### Todo's
 * STREAMING_ENDPOINT should be changed by client, using simple string injection
