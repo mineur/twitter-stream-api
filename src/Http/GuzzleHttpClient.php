@@ -20,11 +20,8 @@ final class GuzzleHttpClient implements HttpClient
      */
     const STREAMING_ENDPOINT = 'https://stream.twitter.com/1.1/';
 
-    /** @var Oauth1 */
-    private $oauth;
-
-    /** @var HandlerStack */
-    private $stack;
+    /** @var Client */
+    private $client;
 
     /**
      * GuzzleHttpClient constructor.
@@ -41,12 +38,20 @@ final class GuzzleHttpClient implements HttpClient
         string $tokenSecret
     )
     {
-        $this->stack = HandlerStack::create();
-        $this->oauth = new Oauth1([
+        $stack = HandlerStack::create();
+        $oauth = new Oauth1([
             'consumer_key'    => $consumerKey,
             'consumer_secret' => $consumerSecret,
             'token'           => $token,
             'token_secret'    => $tokenSecret,
+        ]);
+
+        $stack->push($oauth);
+        $this->client = new Client([
+            'base_uri' => self::STREAMING_ENDPOINT,
+            'handler'  => $stack,
+            'auth'     => 'oauth',
+            'stream'   => true,
         ]);
     }
 
@@ -62,16 +67,7 @@ final class GuzzleHttpClient implements HttpClient
         array $options
     ) : array
     {
-        $this->stack->push($this->oauth);
-
-        $client = new Client([
-            'base_uri' => self::STREAMING_ENDPOINT,
-            'handler'  => $this->stack,
-            'auth'     => 'oauth',
-            'stream'   => true,
-        ]);
-
-        $body = $client
+        $body = $this->client
             ->post($endpoint, $options)
             ->getBody();
 
@@ -81,14 +77,16 @@ final class GuzzleHttpClient implements HttpClient
                 true
             );
 
-            return $tweet;
             $this->returnResponse($tweet);
         }
     }
 
-    public function returnResponse($tweet)
+    /**
+     * @param $tweet
+     * @return mixed
+     */
+    private function returnResponse($tweet): array
     {
-        dump($tweet);
         return $tweet;
     }
 

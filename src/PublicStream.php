@@ -43,10 +43,7 @@ final class PublicStream
      */
     public static function open(HttpClient $httpClient): self
     {
-        return new self(
-            $httpClient,
-            new GuzzleStream()
-        );
+        return new self($httpClient);
     }
 
     /**
@@ -63,24 +60,9 @@ final class PublicStream
                 'language' => $language
             ],
         ]);
-//        $tweet = json_decode($tweet, true);
 
-        $this->returnTweetObject($tweet);
-    }
-
-    /**
-     * Return hydrated Tweet object
-     *
-     * @param array $tweet
-     * @return Tweet
-     */
-    private function returnTweetObject(array $tweet): Tweet
-    {
         dump(Tweet::fromArray($tweet));
-
-        return Tweet::fromArray($tweet);
     }
-
 
     /**
      * Set Tweet search language

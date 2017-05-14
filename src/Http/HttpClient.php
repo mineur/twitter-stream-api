@@ -15,4 +15,11 @@ interface HttpClient
         string $endpoint,
         array $options
     ): array;
+
+    /**
+     * Checks if Stream line is at the end of the file
+     *
+     * @return bool
+     */
+//    public function isStreamAtTheEndOfFile(): bool;
 }
