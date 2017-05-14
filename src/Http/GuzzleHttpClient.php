@@ -77,15 +77,11 @@ final class GuzzleHttpClient implements HttpClient
                 true
             );
 
-            $this->returnResponse($tweet);
+            $this->returnTweet($tweet);
         }
     }
 
-    /**
-     * @param $tweet
-     * @return mixed
-     */
-    private function returnResponse($tweet): array
+    public function returnTweet($tweet)
     {
         return $tweet;
     }

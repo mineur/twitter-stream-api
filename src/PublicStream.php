@@ -61,6 +61,8 @@ final class PublicStream
             ],
         ]);
 
+        dump($tweet);
+
         dump(Tweet::fromArray($tweet));
     }
 
