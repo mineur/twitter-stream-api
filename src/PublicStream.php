@@ -54,16 +54,28 @@ final class PublicStream
         $keywords = implode(',', $this->keywords);
         $language = $this->language ?? '';
 
-        $tweet = $this->httpClient->post('statuses/filter.json', [
+        $this->httpClient->post('statuses/filter.json', [
             'form_params' => [
                 'track'    => $keywords,
                 'language' => $language
             ],
         ]);
 
-        dump($tweet);
+        while ($tweet = $this->httpClient->read()) {
+            $this->returnTweetObject($tweet);
+        }
+    }
 
+    /**
+     * Return hydrated Tweet object
+     *
+     * @param $tweet
+     * @return Tweet
+     */
+    private function returnTweetObject($tweet): Tweet
+    {
         dump(Tweet::fromArray($tweet));
+        return Tweet::fromArray($tweet);
     }
 
     /**

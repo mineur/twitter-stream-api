@@ -23,6 +23,8 @@ final class GuzzleHttpClient implements HttpClient
     /** @var Client */
     private $client;
 
+    private $body;
+
     /**
      * GuzzleHttpClient constructor.
      *
@@ -65,25 +67,30 @@ final class GuzzleHttpClient implements HttpClient
     public function post(
         string $endpoint,
         array $options
-    ) : array
+    )
     {
-        $body = $this->client
+        $this->body = $this->client
             ->post($endpoint, $options)
             ->getBody();
+    }
 
-        while (!$body->eof()) {
+    /**
+     * Start reading the stream
+     *
+     * @return array
+     */
+    public function read(): array
+    {
+        while (!$this->body->eof()) {
             $tweet = json_decode(
-                $this->readStreamLine($body),
+                $this->readStreamLine($this->body),
                 true
             );
 
-            $this->returnTweet($tweet);
+            if (null !== $tweet) {
+                return $tweet;
+            }
         }
-    }
-
-    public function returnTweet($tweet)
-    {
-        return $tweet;
     }
 
     /**
