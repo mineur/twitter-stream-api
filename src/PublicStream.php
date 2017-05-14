@@ -4,8 +4,6 @@ namespace Mineur\TwitterStreamApi;
 
 use Mineur\TwitterStreamApi\Http\GuzzleStreamHttpClient;
 use Mineur\TwitterStreamApi\Http\StreamHttpClient;
-use Mineur\TwitterStreamApi\Stream\GuzzleStream;
-use Mineur\TwitterStreamApi\Stream\Stream;
 
 
 /**
@@ -62,6 +60,7 @@ final class PublicStream
         ]);
 
         while ($tweet = $this->httpClient->read()) {
+            dump($tweet);die;
             $this->returnTweetObject($tweet);
         }
     }

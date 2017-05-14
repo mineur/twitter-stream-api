@@ -4,50 +4,41 @@ namespace Mineur\TwitterStreamApi;
 
 class Tweet
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $text;
 
-    /**
-     * @var string
-     */
+    /** @var string */
+    private $language;
+
+    /** @var string */
     private $createdAt;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $timestampMs;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $geo;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $coordinates;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $places;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $retweetCount;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $favoriteCount;
+
+    /** @var array */
+    private $user;
 
     /**
      * Tweet constructor.
      *
      * @param string $text
+     * @param string $language
      * @param string $createdAt
      * @param string $timestampMs
      * @param array|null $geo
@@ -55,19 +46,23 @@ class Tweet
      * @param array|null $places
      * @param int $retweetCount
      * @param int $favoriteCount
+     * @param array $user
      */
     public function __construct(
         string $text,
+        string $language,
         string $createdAt,
         string $timestampMs,
         ? array $geo,
         ? array $coordinates,
         ? array $places,
         int $retweetCount,
-        int $favoriteCount
+        int $favoriteCount,
+        array $user
     )
     {
         $this->text = $text;
+        $this->language = $language;
         $this->createdAt = $createdAt;
         $this->timestampMs = $timestampMs;
         $this->geo = $geo;
@@ -75,6 +70,7 @@ class Tweet
         $this->places = $places;
         $this->retweetCount = $retweetCount;
         $this->favoriteCount = $favoriteCount;
+        $this->user = $user;
     }
 
     /**
@@ -87,13 +83,15 @@ class Tweet
     {
         return new self(
             $tweet['text'],
+            $tweet['language'],
             $tweet['created_at'],
             $tweet['timestamp_ms'],
             $tweet['geo'],
             $tweet['coordinates'],
             $tweet['place'],
             $tweet['retweet_count'],
-            $tweet['favorite_count']
+            $tweet['favorite_count'],
+            $tweet['user']
         );
     }
 }

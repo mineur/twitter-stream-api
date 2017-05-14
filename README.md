@@ -36,8 +36,8 @@ PublicStream::open($httpClient)
 ### Remember
 Working with the Twitter Stream you cannot open two stream lines with the same account. You should create another app account and raise a new instance of this library.
 
-### Tests
-```shell
+### Run tests
+```php
 composer install
 ./bin/vendor/phpunit
 ```
