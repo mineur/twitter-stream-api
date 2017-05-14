@@ -60,7 +60,6 @@ final class PublicStream
         ]);
 
         while ($tweet = $this->httpClient->read()) {
-            dump($tweet);die;
             $this->returnTweetObject($tweet);
         }
     }
@@ -73,7 +72,6 @@ final class PublicStream
      */
     private function returnTweetObject($tweet): Tweet
     {
-        dump(Tweet::fromArray($tweet));
         return Tweet::fromArray($tweet);
     }
 
