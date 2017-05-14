@@ -2,8 +2,8 @@
 
 namespace Mineur\TwitterStreamApi;
 
-use Mineur\TwitterStreamApi\Http\GuzzleStreamHttpClient;
-use Mineur\TwitterStreamApi\Http\StreamHttpClient;
+use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
+use Mineur\TwitterStreamApi\Http\StreamClient;
 
 
 /**
@@ -14,8 +14,8 @@ use Mineur\TwitterStreamApi\Http\StreamHttpClient;
  */
 final class PublicStream
 {
-    /** @var GuzzleStreamHttpClient */
-    private $httpClient;
+    /** @var GuzzleStreamClient */
+    private $streamClient;
 
     /** @var $keywords */
     private $keywords;
@@ -26,22 +26,22 @@ final class PublicStream
     /**
      * PublicStream constructor.
      *
-     * @param StreamHttpClient $httpClient
+     * @param StreamClient $streamClient
      */
-    private function __construct(StreamHttpClient $httpClient)
+    private function __construct(StreamClient $streamClient)
     {
-        $this->httpClient = $httpClient;
+        $this->streamClient = $streamClient;
     }
 
     /**
      * Open the stream connection
      *
-     * @param StreamHttpClient $httpClient
+     * @param StreamClient $streamClient
      * @return PublicStream
      */
-    public static function open(StreamHttpClient $httpClient): self
+    public static function open(StreamClient $streamClient): self
     {
-        return new self($httpClient);
+        return new self($streamClient);
     }
 
     /**
@@ -52,14 +52,14 @@ final class PublicStream
         $keywords = implode(',', $this->keywords);
         $language = $this->language ?? '';
 
-        $this->httpClient->post('statuses/filter.json', [
+        $this->streamClient->post('statuses/filter.json', [
             'form_params' => [
                 'track'    => $keywords,
                 'language' => $language
             ],
         ]);
 
-        while ($tweet = $this->httpClient->read()) {
+        while ($tweet = $this->streamClient->read()) {
             $this->returnTweetObject($tweet);
         }
     }

@@ -9,16 +9,16 @@ composer require mineur/twitter-stream-api
 ### Basic initialization
 Instantiate the GuzzleHttpClient with your Twitter api tokens. And start consuming Twitter's Stream with some keywords! :)
 ```php
-use Mineur\TwitterStreamApi\HttpClient;
+use Mineur\TwitterStreamApi\Http\StreamClient;
 use Mineur\TwitterStreamApi\PublicStream;
 
-$httpClient = new HttpClient(
+$streamClient = new StreamClient(
     'consumer_key',
     'consumer_secret',
     'access_token',
     'access_token_secret'
 );
-PublicStream::open($httpClient)
+PublicStream::open($streamClient)
     ->listenFor(['your','keywords','list'])
     ->consume();
 ```
@@ -26,8 +26,9 @@ PublicStream::open($httpClient)
 ### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
-$httpClient = new HttpClient(/* Your keys */);
-PublicStream::open($httpClient)
+$streamClient = new StreamClient(/* Your keys */);
+
+PublicStream::open($streamClient)
     ->listenFor(['keywords','list'])
     ->setLanguage('es')
     ->consume();

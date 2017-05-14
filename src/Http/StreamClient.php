@@ -2,7 +2,7 @@
 
 namespace Mineur\TwitterStreamApi\Http;
 
-interface StreamHttpClient
+interface StreamClient
 {
     /**
      * Post request

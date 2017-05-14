@@ -12,7 +12,7 @@ use GuzzleHttp\HandlerStack;
  * Class GuzzleHttpClient
  * @package Mineur\TwitterStreamApi
  */
-final class GuzzleStreamHttpClient implements StreamHttpClient
+final class GuzzleStreamClient implements StreamClient
 {
     /**
      * Api endpoint

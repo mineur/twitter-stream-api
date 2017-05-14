@@ -8,7 +8,7 @@ class Tweet
     private $text;
 
     /** @var string */
-    private $language;
+    private $lang;
 
     /** @var string */
     private $createdAt;
@@ -38,7 +38,7 @@ class Tweet
      * Tweet constructor.
      *
      * @param string $text
-     * @param string $language
+     * @param string $lang
      * @param string $createdAt
      * @param string $timestampMs
      * @param array|null $geo
@@ -50,7 +50,7 @@ class Tweet
      */
     public function __construct(
         string $text,
-        string $language,
+        string $lang,
         string $createdAt,
         string $timestampMs,
         ? array $geo,
@@ -62,7 +62,7 @@ class Tweet
     )
     {
         $this->text = $text;
-        $this->language = $language;
+        $this->lang = $lang;
         $this->createdAt = $createdAt;
         $this->timestampMs = $timestampMs;
         $this->geo = $geo;
@@ -83,7 +83,7 @@ class Tweet
     {
         return new self(
             $tweet['text'],
-            $tweet['language'],
+            $tweet['lang'],
             $tweet['created_at'],
             $tweet['timestamp_ms'],
             $tweet['geo'],
