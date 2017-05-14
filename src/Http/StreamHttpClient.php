@@ -2,7 +2,7 @@
 
 namespace Mineur\TwitterStreamApi\Http;
 
-interface HttpClient
+interface StreamHttpClient
 {
     /**
      * Post request
@@ -15,4 +15,9 @@ interface HttpClient
         string $endpoint,
         array $options
     );
+
+    /**
+     * Read stream
+     */
+    public function read(): array;
 }

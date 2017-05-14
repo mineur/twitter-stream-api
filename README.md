@@ -26,8 +26,7 @@ PublicStream::open($httpClient)
 ### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
-// Instantiate the guzzle http client with your twitter app tokens
-
+$httpClient = new HttpClient(/* Your keys */);
 PublicStream::open($httpClient)
     ->listenFor(['keywords','list'])
     ->setLanguage('es')
@@ -35,7 +34,13 @@ PublicStream::open($httpClient)
 ```
 
 ### Remember
-You cannot open two stream lines with the same account in Twitter Stream Api.
+Working with the Twitter Stream you cannot open two stream lines with the same account. You should create another app account and raise a new instance of this library.
 
-### TODO
+### Tests
+```shell
+composer install
+./bin/vendor/phpunit
+```
+
+### Todo's
 * STREAMING_ENDPOINT should be changed by client, using simple string injection
