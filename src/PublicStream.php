@@ -2,8 +2,8 @@
 
 namespace Mineur\TwitterStreamApi;
 
-use Mineur\TwitterStreamApi\Http\GuzzleHttpClient;
-use Mineur\TwitterStreamApi\Http\HttpClient;
+use Mineur\TwitterStreamApi\Http\GuzzleStreamHttpClient;
+use Mineur\TwitterStreamApi\Http\StreamHttpClient;
 use Mineur\TwitterStreamApi\Stream\GuzzleStream;
 use Mineur\TwitterStreamApi\Stream\Stream;
 
@@ -16,7 +16,7 @@ use Mineur\TwitterStreamApi\Stream\Stream;
  */
 final class PublicStream
 {
-    /** @var GuzzleHttpClient */
+    /** @var GuzzleStreamHttpClient */
     private $httpClient;
 
     /** @var $keywords */
@@ -28,9 +28,9 @@ final class PublicStream
     /**
      * PublicStream constructor.
      *
-     * @param HttpClient $httpClient
+     * @param StreamHttpClient $httpClient
      */
-    private function __construct(HttpClient $httpClient)
+    private function __construct(StreamHttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
     }
@@ -38,10 +38,10 @@ final class PublicStream
     /**
      * Open the stream connection
      *
-     * @param HttpClient $httpClient
+     * @param StreamHttpClient $httpClient
      * @return PublicStream
      */
-    public static function open(HttpClient $httpClient): self
+    public static function open(StreamHttpClient $httpClient): self
     {
         return new self($httpClient);
     }

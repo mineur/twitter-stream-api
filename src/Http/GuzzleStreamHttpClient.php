@@ -12,7 +12,7 @@ use GuzzleHttp\HandlerStack;
  * Class GuzzleHttpClient
  * @package Mineur\TwitterStreamApi
  */
-final class GuzzleHttpClient implements HttpClient
+final class GuzzleStreamHttpClient implements StreamHttpClient
 {
     /**
      * Api endpoint
@@ -23,7 +23,8 @@ final class GuzzleHttpClient implements HttpClient
     /** @var Client */
     private $client;
 
-    private $body;
+    /** @var Stream */
+    private $streamBody;
 
     /**
      * GuzzleHttpClient constructor.
@@ -69,7 +70,7 @@ final class GuzzleHttpClient implements HttpClient
         array $options
     )
     {
-        $this->body = $this->client
+        $this->streamBody = $this->client
             ->post($endpoint, $options)
             ->getBody();
     }
@@ -81,9 +82,9 @@ final class GuzzleHttpClient implements HttpClient
      */
     public function read(): array
     {
-        while (!$this->body->eof()) {
+        while (!$this->streamBody->eof()) {
             $tweet = json_decode(
-                $this->readStreamLine($this->body),
+                $this->readStreamLine($this->streamBody),
                 true
             );
 
