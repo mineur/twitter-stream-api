@@ -1,6 +1,6 @@
 <?php
 
-namespace Mineur\TwitterStreamApiTest;
+namespace Mineur\TwitterStreamApiTest\TestCase;
 
 use Mockery;
 use Mockery\MockInterface;

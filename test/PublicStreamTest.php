@@ -2,27 +2,28 @@
 
 namespace Mineur\TwitterStreamApiTest;
 
-use Mineur\TwitterStreamApi\Http\StreamClient;
-use Mineur\TwitterStreamApi\PublicStream;
+use Mockery\MockInterface;
 use Mineur\TwitterStreamApi\Tweet;
+use Mineur\TwitterStreamApi\Http\StreamClient;
+use Mineur\TwitterStreamApiTest\Mock\PublicStreamTestClass;
 use Mineur\TwitterStreamApiTest\Stub\StreamTweetArrayStub;
 use Mineur\TwitterStreamApiTest\Stub\TweetEntityStub;
-use Mockery\MockInterface;
+use Mineur\TwitterStreamApiTest\TestCase\UnitTestCase;
 
 final class PublicStreamTest extends UnitTestCase
 {
     /** @var MockInterface|StreamClient */
     private $streamClient;
 
-    /** @var PublicStream */
-    private $publicStream;
+    /** @var PublicStreamTestClass */
+    private $publicStreamMock;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->streamClient = $this->mock(StreamClient::class);
-        $this->publicStream = PublicStream::open($this->streamClient);
+        $this->publicStreamMock = PublicStreamTestClass::open($this->streamClient);
     }
 
     /** @test */
@@ -31,36 +32,25 @@ final class PublicStreamTest extends UnitTestCase
         $streamTweetArray = StreamTweetArrayStub::create();
         $tweetEntityStub = TweetEntityStub::create($streamTweetArray);
 
-        $this->shouldReturnEmptyOnStreamClientPost(
-            'statuses/filter.json',
-            'hola'
-        );
+        $this->shouldReturnNullOnStreamClientPost();
         $this->shouldReturnTweetObjectOnStreamConsuming($streamTweetArray);
 
-        $this->publicStream->listenFor(['hola']);
         $this->assertInstanceOf(
             Tweet::class,
-            $this->publicStream->consume()
+            $this->publicStreamMock->consume()
         );
         $this->assertEquals(
             $tweetEntityStub,
-            $this->publicStream->consume()
+            $this->publicStreamMock->consume()
         );
     }
 
-    private function shouldReturnEmptyOnStreamClientPost(
-        string $endpoint,
-        string $track
-    )
+    private function shouldReturnNullOnStreamClientPost()
     {
         $this->streamClient
             ->shouldReceive('post')
-            ->with($endpoint, [
-                'form_params' => [
-                    'track' => $track
-                ]
-            ])
-            ->once();
+            ->once()
+            ->andReturnNull();
     }
 
     private function shouldReturnTweetObjectOnStreamConsuming(

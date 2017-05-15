@@ -12,10 +12,10 @@ use Mineur\TwitterStreamApi\Http\StreamClient;
  *
  * @package Mineur\TwitterStreamApi
  */
-final class PublicStream
+class PublicStream
 {
     /** @var GuzzleStreamClient */
-    private $streamClient;
+    protected $streamClient;
 
     /** @var $language */
     private $language;
@@ -75,8 +75,10 @@ final class PublicStream
      * @param $tweet
      * @return Tweet
      */
-    private function returnTweetObject($tweet): Tweet
+    protected function returnTweetObject(array $tweet): Tweet
     {
+        dump(Tweet::fromArray($tweet));
+
         return Tweet::fromArray($tweet);
     }
 
@@ -106,7 +108,13 @@ final class PublicStream
         return $this;
     }
 
-
+    /**
+     * Set a User Id filter
+     * to track user posts
+     *
+     * @param array $users
+     * @return PublicStream
+     */
     public function tweetedBy(array $users): self
     {
         $this->users = $users;
