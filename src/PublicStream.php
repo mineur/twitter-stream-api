@@ -17,11 +17,14 @@ final class PublicStream
     /** @var GuzzleStreamClient */
     private $streamClient;
 
+    /** @var $language */
+    private $language;
+
     /** @var $keywords */
     private $keywords;
 
-    /** @var $language */
-    private $language;
+    /** @var $users */
+    private $users;
 
     /**
      * PublicStream constructor.
@@ -49,13 +52,15 @@ final class PublicStream
      */
     public function consume()
     {
-        $keywords = implode(',', $this->keywords);
         $language = $this->language ?? '';
+        $keywords = $this->keywords ?? [];
+        $users = $this->users ?? [];
 
         $this->streamClient->post('statuses/filter.json', [
             'form_params' => [
-                'track'    => $keywords,
-                'language' => $language
+                'language' => $language,
+                'track'    =>  implode(',', $keywords),
+                'follow'    => implode(',', $users),
             ],
         ]);
 
@@ -72,6 +77,7 @@ final class PublicStream
      */
     private function returnTweetObject($tweet): Tweet
     {
+        dump(Tweet::fromArray($tweet));
         return Tweet::fromArray($tweet);
     }
 
@@ -97,6 +103,14 @@ final class PublicStream
     public function listenFor(array $keywords): self
     {
         $this->keywords = $keywords;
+
+        return $this;
+    }
+
+
+    public function tweetedBy(array $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

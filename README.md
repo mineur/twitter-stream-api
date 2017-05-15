@@ -23,7 +23,17 @@ PublicStream::open($streamClient)
     ->consume();
 ```
 
-### Filtering keywords by language
+#### Filtering tweets by user ID
+In this example you'll only get the tweets of a user corresponding to its ID.
+```php
+$streamClient = new StreamClient(/* Your keys */);
+
+PublicStream::open($streamClient)
+    ->tweetedBy(['1234567'])
+    ->consume();
+```
+
+#### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
 $streamClient = new StreamClient(/* Your keys */);
@@ -45,3 +55,6 @@ composer install
 
 ### Todo's
 * STREAMING_ENDPOINT should be changed by client, using simple string injection
+* Add links of the filters in documentation
+* Test the first version of this library using Unit testing
+* Handle when a user removes a tweet on the fly.
