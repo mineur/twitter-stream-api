@@ -54,7 +54,7 @@ final class PublicStream
     {
         $language = $this->language ?? '';
         $keywords = $this->keywords ?? [];
-        $users = $this->users ?? [];
+        $users    = $this->users ?? [];
 
         $this->streamClient->post('statuses/filter.json', [
             'form_params' => [
@@ -77,7 +77,6 @@ final class PublicStream
      */
     private function returnTweetObject($tweet): Tweet
     {
-        dump(Tweet::fromArray($tweet));
         return Tweet::fromArray($tweet);
     }
 
