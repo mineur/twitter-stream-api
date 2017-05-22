@@ -1,4 +1,7 @@
 # Twitter Streaming API
+[![Travis](https://travis-ci.org/mineur/twitter-stream-api.svg?branch=master)]()
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)]()
+
 Yes. Another Twitter Stream PHP library. For now it just works on public stream, using the filter method.<br>
 
 ## Installation
