@@ -31,7 +31,7 @@ class PublicStream
      *
      * @param StreamClient $streamClient
      */
-    private function __construct(StreamClient $streamClient)
+    protected function __construct(StreamClient $streamClient)
     {
         $this->streamClient = $streamClient;
     }
