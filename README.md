@@ -3,7 +3,7 @@ Yes. Another Twitter Stream PHP library. For now it just works on public stream,
 
 ## Installation
 ```php
-composer require mineur/twitter-stream-api
+composer require mineur/twitter-stream-api:dev-master
 ```
 
 ## Basic initialization
