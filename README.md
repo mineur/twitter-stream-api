@@ -12,10 +12,10 @@ composer require mineur/twitter-stream-api:dev-master
 ## Basic initialization
 Instantiate the GuzzleHttpClient with your Twitter api tokens. And start consuming Twitter's Stream with some keywords! :)
 ```php
-use Mineur\TwitterStreamApi\Http\StreamClient;
+use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\PublicStream;
 
-$streamClient = new StreamClient(
+$streamClient = new GuzzleStreamClient(
     'consumer_key',
     'consumer_secret',
     'access_token',

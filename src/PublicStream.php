@@ -77,8 +77,6 @@ class PublicStream
      */
     protected function returnTweetObject(array $tweet): Tweet
     {
-        dump(Tweet::fromArray($tweet));
-
         return Tweet::fromArray($tweet);
     }
 
