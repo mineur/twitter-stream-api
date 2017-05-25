@@ -1,6 +1,8 @@
 # Twitter Streaming API
 [![Travis](https://travis-ci.org/mineur/twitter-stream-api.svg?branch=master)]()
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)]()
+[![Latest Unstable Version](https://poser.pugx.org/mineur/twitter-stream-api/v/unstable)](https://packagist.org/packages/mineur/twitter-stream-api)
+[![Total Downloads](https://poser.pugx.org/mineur/twitter-stream-api/downloads)](https://packagist.org/packages/mineur/twitter-stream-api)
 
 Yes. Another Twitter Stream PHP library. For now it just works on public stream, using the filter method.<br>
 
@@ -29,7 +31,7 @@ PublicStream::open($streamClient)
 ### Filtering tweets by user ID
 In this example you'll only get the tweets of a user corresponding to its ID.
 ```php
-$streamClient = new StreamClient(/* Your keys */);
+$streamClient = new GuzzleStreamClient(/* Your keys */);
 
 PublicStream::open($streamClient)
     ->tweetedBy(['1234567'])
@@ -39,7 +41,7 @@ PublicStream::open($streamClient)
 ### Filtering keywords by language
 In this example you'll only get the tweets on your keywords list write in spanish language. 
 ```php
-$streamClient = new StreamClient(/* Your keys */);
+$streamClient = new GuzzleStreamClient(/* Your keys */);
 
 PublicStream::open($streamClient)
     ->listenFor(['keywords','list'])
