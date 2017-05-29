@@ -115,4 +115,87 @@ class Tweet
             'user'           => $this->user
         ];
     }
+    
+    /**
+     * Return serielized Tweet object
+     *
+     * @return string
+     */
+    public function serialized(): string
+    {
+        return serialize(
+            new self(
+                $this->text,
+                $this->lang,
+                $this->createdAt,
+                $this->timestampMs,
+                $this->geo,
+                $this->coordinates,
+                $this->places,
+                $this->retweetCount,
+                $this->favoriteCount,
+                $this->user
+            )
+        );
+    }
+    
+    /** @return string */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+    
+    /** @return string */
+    public function getLang(): string
+    {
+        return $this->lang;
+    }
+    
+    /** @return string */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+    
+    /** @return string */
+    public function getTimestampMs(): string
+    {
+        return $this->timestampMs;
+    }
+    
+    /** @return string */
+    public function getGeo(): string
+    {
+        return $this->geo;
+    }
+    
+    /** @return string */
+    public function getCoordinates(): string
+    {
+        return $this->coordinates;
+    }
+    
+    /** @return string */
+    public function getPlaces(): string
+    {
+        return $this->places;
+    }
+    
+    /** @return int */
+    public function getRetweetCount(): int
+    {
+        return $this->retweetCount;
+    }
+    
+    /** @return int */
+    public function getFavoriteCount(): int
+    {
+        return $this->favoriteCount;
+    }
+    
+    /** @return array */
+    public function getUser(): array
+    {
+        return $this->user;
+    }
 }
