@@ -99,7 +99,7 @@ final class GuzzleStreamClient implements StreamClient
      * @param int|null $maxLength
      * @return string
      */
-    public function readStreamLine(
+    private function readStreamLine(
         Stream $stream,
         int $maxLength = null
     ) : string

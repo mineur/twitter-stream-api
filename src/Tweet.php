@@ -6,47 +6,47 @@ class Tweet
 {
     /** @var string */
     private $text;
-
+    
     /** @var string */
     private $lang;
-
+    
     /** @var string */
     private $createdAt;
-
+    
     /** @var string */
     private $timestampMs;
-
+    
     /** @var string */
     private $geo;
-
+    
     /** @var string */
     private $coordinates;
-
+    
     /** @var string */
     private $places;
-
+    
     /** @var int */
     private $retweetCount;
-
+    
     /** @var int */
     private $favoriteCount;
-
+    
     /** @var array */
     private $user;
-
+    
     /**
      * Tweet constructor.
      *
-     * @param string $text
-     * @param string $lang
-     * @param string $createdAt
-     * @param string $timestampMs
+     * @param string     $text
+     * @param string     $lang
+     * @param string     $createdAt
+     * @param string     $timestampMs
      * @param array|null $geo
      * @param array|null $coordinates
      * @param array|null $places
-     * @param int $retweetCount
-     * @param int $favoriteCount
-     * @param array $user
+     * @param int        $retweetCount
+     * @param int        $favoriteCount
+     * @param array      $user
      */
     public function __construct(
         string $text,
@@ -72,7 +72,7 @@ class Tweet
         $this->favoriteCount = $favoriteCount;
         $this->user = $user;
     }
-
+    
     /**
      * Create Tweet from Array
      *
@@ -93,5 +93,26 @@ class Tweet
             $tweet['favorite_count'],
             $tweet['user']
         );
+    }
+    
+    /**
+     * Return Tweet object to Array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'text'           => $this->text,
+            'lang'           => $this->lang,
+            'created_at'     => $this->createdAt,
+            'timestamp_ms'   => $this->timestampMs,
+            'geo'            => $this->geo,
+            'coordinates'    => $this->coordinates,
+            'places'         => $this->places,
+            'retweet_count'  => $this->retweetCount,
+            'favorite_count' => $this->favoriteCount,
+            'user'           => $this->user
+        ];
     }
 }

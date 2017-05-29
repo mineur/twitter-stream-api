@@ -14,6 +14,8 @@ use Mineur\TwitterStreamApi\Http\StreamClient;
  */
 class PublicStream
 {
+    const FILTER_METHOD = 'statuses/filter.json';
+    
     /** @var GuzzleStreamClient */
     protected $streamClient;
 
@@ -46,37 +48,69 @@ class PublicStream
     {
         return new self($streamClient);
     }
-
-    /**
-     * Start consuming the Stream API
-     */
-    public function consume()
+    
+    private function getStreamClient()
     {
         $language = $this->language ?? '';
         $keywords = $this->keywords ?? [];
         $users    = $this->users ?? [];
-
-        $this->streamClient->post('statuses/filter.json', [
+    
+        $this->streamClient->post(self::FILTER_METHOD, [
             'form_params' => [
                 'language' => $language,
                 'track'    =>  implode(',', $keywords),
                 'follow'    => implode(',', $users),
             ],
         ]);
-
-        while ($tweet = $this->streamClient->read()) {
-            $this->returnTweetObject($tweet);
-        }
     }
 
     /**
-     * Return hydrated Tweet object
+     * Start consuming the Stream API
      *
-     * @param $tweet
-     * @return Tweet
+     * @return void
      */
-    protected function returnTweetObject(array $tweet): Tweet
+    public function consume()
     {
+        $this->getStreamClient();
+        
+        while (true) {
+            $this->consumeOnce();
+        }
+    }
+    
+    /**
+     * Start consuming the Stream API
+     * And return a callback function
+     *
+     * @param callable $callback
+     * @return void
+     */
+    public function do(callable $callback)
+    {
+        $this->getStreamClient();
+        
+        while (true) {
+            $this->consumeOnce($callback);
+        }
+    }
+    
+    /**
+     * Consume once from the stream
+     * Can return a callable or not depending on the entry point
+     *  - consume()
+     *  - do($callable)
+     *
+     * @param callable $callback
+     * @return Tweet|mixed
+     */
+    private function consumeOnce(callable $callback = null)
+    {
+        $tweet = $this->streamClient->read();
+        
+        if ($callback !== null) {
+            return call_user_func($callback, Tweet::fromArray($tweet));
+        }
+        
         return Tweet::fromArray($tweet);
     }
 

@@ -18,6 +18,8 @@ interface StreamClient
 
     /**
      * Read stream
+     *
+     * @return array
      */
     public function read(): array;
 }
