@@ -4,16 +4,32 @@
 [![Latest Unstable Version](https://poser.pugx.org/mineur/twitter-stream-api/v/unstable)](https://packagist.org/packages/mineur/twitter-stream-api)
 [![Total Downloads](https://poser.pugx.org/mineur/twitter-stream-api/downloads)](https://packagist.org/packages/mineur/twitter-stream-api)
 
-Yes. Another Twitter Stream PHP library. For now it just works on public stream, using the filter method.<br>
+Another Twitter Stream PHP library. For now it just works on public stream, 
+using the filter method.
+\
+## Index
+- [Installation](#installation)
+- [Basic init](#basic-initialization)
+    - [Callback method](#callback-metod)
+    - [Filter by user](#filtering-tweets-by-user-id)
+    - [Filter by language](#filtering-keywords-by-language)
+- [The Tweet object](#the-tweet-object)
+- [Tests](#run-tests)
+- [To-do](#todos)
 
 ## Installation
-```php
+```shell
 composer require mineur/twitter-stream-api:dev-master
 ```
 
 ## Basic initialization
-Instantiate the GuzzleHttpClient adapter with your Twitter api tokens. And start 
-consuming Twitter's Stream with some keywords! :)
+Instantiate the GuzzleHttpClient adapter with your Twitter api tokens. 
+And start consuming Twitter's Stream with some keywords! :) \
+If you don't have your Twitter API credentials, check this: 
+<a href="https://dev.twitter.com/oauth/overview/application-owner-access-tokens" 
+   target="_blank">
+    How to get your twitter access tokens
+</a>
 ```php
 use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\PublicStream;
@@ -25,26 +41,41 @@ $streamClient = new GuzzleStreamClient(
     'access_token_secret'
 );
 PublicStream::open($streamClient)
-    ->listenFor(['your','keywords','list'])
+    ->listenFor([
+        'your',
+        'keywords',
+        'list'
+    ])
     ->consume();
 ```
+> Working with the Twitter Stream you cannot open two stream lines with the same 
+> account. You should create another app account and raise a new instance of this 
+> library.
 
+### Callback method
 You can also use a callback instead, if you want to modify the original output:
 ```php
 use Mineur\TwitterStreamApi\Tweet;
 
 PublicStream::open($streamClient)
-    ->listenFor(['your','keywords','list'])
+    ->listenFor([
+        'your',
+        'keywords',
+        'list'
+    ])
     ->do(function(Tweet $tweet) {
-        echo "$tweet->getUser() tweeted: $tweet->getText()"
+        echo "$tweet->getUser() tweeted: $tweet->getText()";
     });
 ```
 
 ### Filtering tweets by user ID
 In this example you'll only get the tweets of a user corresponding to its ID.
 ```php
+$myTwitterId = '1234567';
 PublicStream::open($streamClient)
-    ->tweetedBy(['1234567'])
+    ->tweetedBy([
+        $myTwitterId
+    ])
     ->consume();
 ```
 
@@ -53,13 +84,16 @@ In this example you'll only get the tweets on your keywords list write in spanis
 language. 
 ```php
 PublicStream::open($streamClient)
-    ->listenFor(['keywords','list'])
+    ->listenFor([
+        'keywords',
+        'list'
+    ])
     ->setLanguage('es')
     ->consume();
 ```
 
 ## The Tweet object
-Once you receive the output from the PublicStream, let's say when you are usng the `do` 
+Once you receive the output from the PublicStream, let's say when you are using the `do` 
 callback function, the output will always be an hydrated Tweet value object.
 \
 You can access it with the following methods:
@@ -79,11 +113,6 @@ $aTweet['text'];
 // A complete serialized object to enqueue it, for example
 $tweet->serialized();
 ```
-
-## Remember
-Working with the Twitter Stream you cannot open two stream lines with the same 
-account. You should create another app account and raise a new instance of this 
-library.
 
 ## Run tests
 ```php
