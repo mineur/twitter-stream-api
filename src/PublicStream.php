@@ -2,6 +2,7 @@
 
 namespace Mineur\TwitterStreamApi;
 
+use Mineur\TwitterStreamApi\Exception\EmptyKeywordsException;
 use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\Http\StreamClient;
 
@@ -14,6 +15,7 @@ use Mineur\TwitterStreamApi\Http\StreamClient;
  */
 class PublicStream
 {
+    /** Filter method endpoint */
     const FILTER_METHOD = 'statuses/filter.json';
     
     /** @var GuzzleStreamClient */
@@ -49,7 +51,13 @@ class PublicStream
         return new self($streamClient);
     }
     
-    private function getStreamClient()
+    /**
+     * Set the stream connection
+     * plus set all filter params
+     *
+     * @return void
+     */
+    private function setStreamClient()
     {
         $language = $this->language ?? '';
         $keywords = $this->keywords ?? [];
@@ -71,7 +79,7 @@ class PublicStream
      */
     public function consume()
     {
-        $this->getStreamClient();
+        $this->setStreamClient();
         
         while (true) {
             $this->consumeOnce();
@@ -87,7 +95,7 @@ class PublicStream
      */
     public function do(callable $callback)
     {
-        $this->getStreamClient();
+        $this->setStreamClient();
         
         while (true) {
             $this->consumeOnce($callback);
@@ -113,30 +121,37 @@ class PublicStream
         
         return Tweet::fromArray($tweet);
     }
+    
+    /**
+     * Set keywords to track
+     *
+     * @param array $keywords
+     * @return PublicStream
+     * @throws EmptyKeywordsException
+     */
+    public function listenFor(array $keywords): self
+    {
+        if (empty($keywords)) {
+            throw new EmptyKeywordsException(
+                'The keywords array to listen for it mustn\'t be empty.'
+            );
+        }
+        
+        $this->keywords = $keywords;
 
+        return $this;
+    }
+    
     /**
      * Set Tweet search language
      *
      * @param string $language
      * @return PublicStream
      */
-    public function setLanguage(string $language): self
+    public function setLanguage(? string $language): self
     {
         $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Set keywords to track
-     *
-     * @param array $keywords
-     * @return PublicStream
-     */
-    public function listenFor(array $keywords): self
-    {
-        $this->keywords = $keywords;
-
+        
         return $this;
     }
 
@@ -147,7 +162,7 @@ class PublicStream
      * @param array $users
      * @return PublicStream
      */
-    public function tweetedBy(array $users): self
+    public function tweetedBy(? array $users): self
     {
         $this->users = $users;
 
