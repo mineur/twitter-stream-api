@@ -10,6 +10,7 @@ use Mineur\TwitterStreamApiTest\Stub\StreamTweetArrayStub;
 use Mineur\TwitterStreamApiTest\Stub\TweetEntityStub;
 use Mineur\TwitterStreamApiTest\TestCase\UnitTestCase;
 
+
 final class PublicStreamTest extends UnitTestCase
 {
     /** @var StreamClient|MockInterface */
@@ -32,10 +33,10 @@ final class PublicStreamTest extends UnitTestCase
     {
         $streamTweetArray = StreamTweetArrayStub::create();
         $tweetEntityStub = TweetEntityStub::create($streamTweetArray);
-
+        
         $this->returnTweetArraysWhenReadingStream($streamTweetArray);
-        $this->openPublicStreamAndConsumming($tweetEntityStub);
-
+        $this->openPublicStream($tweetEntityStub);
+    
         $this->assertInstanceOf(
             Tweet::class,
             $this->publicStream->consume()
@@ -46,14 +47,14 @@ final class PublicStreamTest extends UnitTestCase
         );
     }
 
-    private function openPublicStreamAndConsumming($tweetObject)
+    private function openPublicStream($tweet)
     {
         $this->publicStream
             ->shouldReceive([
                 'open' => $this->streamClient,
                 'consume' => null
             ])
-            ->andReturn($tweetObject);
+            ->andReturn($tweet);
     }
 
     private function returnTweetArraysWhenReadingStream($streamTweetArray)
@@ -61,7 +62,6 @@ final class PublicStreamTest extends UnitTestCase
         $this->streamClient
             ->shouldReceive('post')
             ->andReturn();
-            //-> args
 
         $this->streamClient
             ->shouldReceive('read')

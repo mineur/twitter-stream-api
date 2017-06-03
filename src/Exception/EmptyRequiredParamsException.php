@@ -5,6 +5,6 @@ namespace Mineur\TwitterStreamApi\Exception;
 
 use Exception;
 
-class EmptyKeywordsException extends Exception
+class EmptyRequiredParamsException extends Exception
 {
 }

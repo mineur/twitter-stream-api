@@ -2,7 +2,7 @@
 
 namespace Mineur\TwitterStreamApi;
 
-use Mineur\TwitterStreamApi\Exception\EmptyKeywordsException;
+use Mineur\TwitterStreamApi\Exception\EmptyRequiredParamsException;
 use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\Http\StreamClient;
 
@@ -35,7 +35,7 @@ class PublicStream
      *
      * @param StreamClient $streamClient
      */
-    protected function __construct(StreamClient $streamClient)
+    private function __construct(StreamClient $streamClient)
     {
         $this->streamClient = $streamClient;
     }
@@ -56,13 +56,20 @@ class PublicStream
      * plus set all filter params
      *
      * @return void
+     * @throws EmptyRequiredParamsException
      */
     private function setStreamClient()
     {
         $language = $this->language ?? '';
         $keywords = $this->keywords ?? [];
         $users    = $this->users ?? [];
-    
+        
+        if (empty($keywords) && empty($users)) {
+            throw new EmptyRequiredParamsException(
+                'The keywords to listen or the Users to track it mustn\'t be empty.'
+            );
+        }
+        
         $this->streamClient->post(self::FILTER_METHOD, [
             'form_params' => [
                 'language' => $language,
@@ -85,7 +92,7 @@ class PublicStream
             $this->consumeOnce();
         }
     }
-    
+
     /**
      * Start consuming the Stream API
      * And return a callback function
@@ -127,16 +134,9 @@ class PublicStream
      *
      * @param array $keywords
      * @return PublicStream
-     * @throws EmptyKeywordsException
      */
     public function listenFor(array $keywords): self
     {
-        if (empty($keywords)) {
-            throw new EmptyKeywordsException(
-                'The keywords array to listen for it mustn\'t be empty.'
-            );
-        }
-        
         $this->keywords = $keywords;
 
         return $this;
@@ -162,7 +162,7 @@ class PublicStream
      * @param array $users
      * @return PublicStream
      */
-    public function tweetedBy(? array $users): self
+    public function tweetedBy(array $users): self
     {
         $this->users = $users;
 
