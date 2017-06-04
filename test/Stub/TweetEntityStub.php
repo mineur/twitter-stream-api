@@ -32,6 +32,8 @@ class TweetEntityStub
             $factory->shuffleArray(),        /* places */
             $factory->numberBetween(0, 100), /* retweetCount */
             $factory->numberBetween(0, 100), /* favoriteCount */
+            $factory->shuffleArray(),        /* entities */
+            $factory->shuffleArray(),        /* extended_entities */
             $factory->shuffleArray()         /* user */
         ]);
     }

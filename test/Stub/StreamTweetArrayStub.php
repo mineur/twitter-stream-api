@@ -27,6 +27,8 @@ class StreamTweetArrayStub
             'place'          => $factory->shuffleArray(),
             'retweet_count'  => $factory->numberBetween(0, 100),
             'favorite_count' => $factory->numberBetween(0, 100),
+            'entities'       => $factory->shuffleArray(),
+            'extended_entities' => $factory->shuffleArray(),
             'user'           => $factory->shuffleArray()
         ];
     }
