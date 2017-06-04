@@ -32,6 +32,12 @@ class Tweet
     private $favoriteCount;
     
     /** @var array */
+    private $entities;
+    
+    /** @var array */
+    private $extendedEntities;
+    
+    /** @var array */
     private $user;
     
     /**
@@ -46,6 +52,8 @@ class Tweet
      * @param array|null $places
      * @param int        $retweetCount
      * @param int        $favoriteCount
+     * @param array      $entities
+     * @param array      $extendedEntities
      * @param array      $user
      */
     public function __construct(
@@ -58,19 +66,23 @@ class Tweet
         ? array $places,
         int $retweetCount,
         int $favoriteCount,
+        array $entities,
+        ? array $extendedEntities,
         array $user
     )
     {
-        $this->text = $text;
-        $this->lang = $lang;
-        $this->createdAt = $createdAt;
-        $this->timestampMs = $timestampMs;
-        $this->geo = $geo;
-        $this->coordinates = $coordinates;
-        $this->places = $places;
-        $this->retweetCount = $retweetCount;
-        $this->favoriteCount = $favoriteCount;
-        $this->user = $user;
+        $this->text             = $text;
+        $this->lang             = $lang;
+        $this->createdAt        = $createdAt;
+        $this->timestampMs      = $timestampMs;
+        $this->geo              = $geo;
+        $this->coordinates      = $coordinates;
+        $this->places           = $places;
+        $this->retweetCount     = $retweetCount;
+        $this->favoriteCount    = $favoriteCount;
+        $this->entities         = $entities;
+        $this->extendedEntities = $extendedEntities;
+        $this->user             = $user;
     }
     
     /**
@@ -81,6 +93,11 @@ class Tweet
      */
     public static function fromArray(array $tweet): self
     {
+        $extendedEntities = isset($tweet['extended_entities'])
+            ? $tweet['extended_entities']
+            : null
+        ;
+        
         return new self(
             $tweet['text'],
             $tweet['lang'],
@@ -91,6 +108,8 @@ class Tweet
             $tweet['place'],
             $tweet['retweet_count'],
             $tweet['favorite_count'],
+            $tweet['entities'],
+            $extendedEntities,
             $tweet['user']
         );
     }
@@ -103,16 +122,18 @@ class Tweet
     public function toArray(): array
     {
         return [
-            'text'           => $this->text,
-            'lang'           => $this->lang,
-            'created_at'     => $this->createdAt,
-            'timestamp_ms'   => $this->timestampMs,
-            'geo'            => $this->geo,
-            'coordinates'    => $this->coordinates,
-            'places'         => $this->places,
-            'retweet_count'  => $this->retweetCount,
-            'favorite_count' => $this->favoriteCount,
-            'user'           => $this->user
+            'text'              => $this->text,
+            'lang'              => $this->lang,
+            'created_at'        => $this->createdAt,
+            'timestamp_ms'      => $this->timestampMs,
+            'geo'               => $this->geo,
+            'coordinates'       => $this->coordinates,
+            'places'            => $this->places,
+            'retweet_count'     => $this->retweetCount,
+            'favorite_count'    => $this->favoriteCount,
+            'entities'          => $this->entities,
+            'extended_entities' => $this->extendedEntities,
+            'user'              => $this->user
         ];
     }
     
@@ -134,6 +155,8 @@ class Tweet
                 $this->places,
                 $this->retweetCount,
                 $this->favoriteCount,
+                $this->entities,
+                $this->extendedEntities,
                 $this->user
             )
         );
@@ -191,6 +214,18 @@ class Tweet
     public function getFavoriteCount(): int
     {
         return $this->favoriteCount;
+    }
+    
+    /** @return array */
+    public function getEntities(): array
+    {
+        return $this->entities;
+    }
+    
+    /** @return array */
+    public function getExtendedEntities(): array
+    {
+        return $this->extendedEntities;
     }
     
     /** @return array */
