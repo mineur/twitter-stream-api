@@ -186,20 +186,20 @@ class Tweet
         return $this->timestampMs;
     }
     
-    /** @return string */
-    public function getGeo(): string
+    /** @return array */
+    public function getGeo(): ? array
     {
         return $this->geo;
     }
     
-    /** @return string */
-    public function getCoordinates(): string
+    /** @return array */
+    public function getCoordinates(): ? array
     {
         return $this->coordinates;
     }
     
-    /** @return string */
-    public function getPlaces(): string
+    /** @return array */
+    public function getPlaces(): ? array
     {
         return $this->places;
     }
@@ -223,7 +223,7 @@ class Tweet
     }
     
     /** @return array */
-    public function getExtendedEntities(): array
+    public function getExtendedEntities(): ? array
     {
         return $this->extendedEntities;
     }

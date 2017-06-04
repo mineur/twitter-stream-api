@@ -10,7 +10,7 @@ using the filter method.
 ## Index
 - [Installation](#installation)
 - [Basic init](#basic-initialization)
-    - [Callback method](#callback-metod)
+    - [Callback method](#callback-method)
     - [Filter by user](#filtering-tweets-by-user-id)
     - [Filter by language](#filtering-keywords-by-language)
 - [The Tweet object](#the-tweet-object)
@@ -116,7 +116,7 @@ $tweet->serialized();
 ```
 
 ## Integrations
-For Symfony integrations you can refere to this bundle: 
+For Symfony integrations you can refer to this bundle: 
 [Mineur Twitter Stream Api Bundle](https://github.com/mineur/twitter-stream-api-bundle)
 
 ## Run tests
