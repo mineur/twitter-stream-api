@@ -109,10 +109,9 @@ class Tweet
             ? $tweet['extended_entities']
             : null
         ;
-        $user = isset($tweet['user'])
-            ? User::fromArray($tweet['user'])
-            : null
-        ;
+        
+        $user = User::fromArray($tweet['user']);
+        
         $retweetedStatus = isset($tweet['retweeted_status'])
             ? RetweetedStatus::fromArray($tweet['retweeted_status'])
             : null
