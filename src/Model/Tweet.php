@@ -156,8 +156,8 @@ class Tweet
             'favorite_count'    => $this->favoriteCount,
             'entities'          => $this->entities,
             'extended_entities' => $this->extendedEntities,
-            'user'              => $this->user,
-            'retweeted_status'  => $this->retweetedStatus
+            'user'              => $this->user->toArray(),
+            'retweeted_status'  => $this->retweetedStatus->toArray()
         ];
     }
     

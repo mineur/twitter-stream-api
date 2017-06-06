@@ -164,6 +164,32 @@ class User
         );
     }
     
+    public function toArray(): array
+    {
+        return [
+            'id'                            => $this->id,
+            'name'                          => $this->name,
+            'screen_name'                   => $this->screenName,
+            'location'                      => $this->location,
+            'url'                           => $this->url,
+            'description'                   => $this->description,
+            'protected'                     => $this->protected,
+            'verified'                      => $this->verified,
+            'followers_count'               => $this->followersCount,
+            'friends_count'                 => $this->friendsCount,
+            'listed_count'                  => $this->listedCount,
+            'favourites_count'              => $this->favouritesCount,
+            'statuses_count'                => $this->statusesCount,
+            'created_at'                    => $this->createdAt,
+            'utc_offset'                    => $this->utcOffset,
+            'time_zone'                     => $this->timeZone,
+            'geo_enabled'                   => $this->geoEnabled,
+            'lang'                          => $this->lang,
+            'profile_background_image_url'  => $this->profileBackgroundImageUrl,
+            'profile_image_url'             => $this->profileImageUrl,
+        ];
+    }
+    
     /** @return int */
     public function getId(): int
     {

@@ -142,31 +142,6 @@ class RetweetedStatus
         ];
     }
     
-    /**
-     * Return serialized Tweet object
-     *
-     * @return string
-     */
-    public function serialized(): string
-    {
-        return serialize(
-            new self(
-                $this->id,
-                $this->text,
-                $this->lang,
-                $this->createdAt,
-                $this->geo,
-                $this->coordinates,
-                $this->places,
-                $this->retweetCount,
-                $this->favoriteCount,
-                $this->entities,
-                $this->extendedEntities,
-                $this->user
-            )
-        );
-    }
-    
     /** @return int */
     public function getId(): int
     {
