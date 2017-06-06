@@ -134,3 +134,5 @@ To check the coverage just add:
 * Add links of the filters in documentation
 * Test the first version of this library using Unit testing
 * Handle when a user removes a tweet on the fly.
+* Add `filter_level` feature
+* Add track `location` feature

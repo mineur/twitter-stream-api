@@ -1,9 +1,12 @@
 <?php
 
-namespace Mineur\TwitterStreamApi;
+namespace Mineur\TwitterStreamApi\Model;
 
 class Tweet
 {
+    /** @var int */
+    private $id;
+    
     /** @var string */
     private $text;
     
@@ -37,12 +40,16 @@ class Tweet
     /** @var array */
     private $extendedEntities;
     
-    /** @var array */
+    /** @var User */
     private $user;
+    
+    /** @var RetweetedStatus */
+    private $retweetedStatus;
     
     /**
      * Tweet constructor.
      *
+     * @param int        $id
      * @param string     $text
      * @param string     $lang
      * @param string     $createdAt
@@ -53,10 +60,12 @@ class Tweet
      * @param int        $retweetCount
      * @param int        $favoriteCount
      * @param array      $entities
-     * @param array      $extendedEntities
-     * @param array      $user
+     * @param array|null $extendedEntities
+     * @param User       $user
+     * @param RetweetedStatus|null $retweetedStatus
      */
-    public function __construct(
+    private function __construct(
+        int $id,
         string $text,
         string $lang,
         string $createdAt,
@@ -68,9 +77,11 @@ class Tweet
         int $favoriteCount,
         array $entities,
         ? array $extendedEntities,
-        array $user
+        User $user,
+        ? RetweetedStatus $retweetedStatus
     )
     {
+        $this->id               = $id;
         $this->text             = $text;
         $this->lang             = $lang;
         $this->createdAt        = $createdAt;
@@ -83,6 +94,7 @@ class Tweet
         $this->entities         = $entities;
         $this->extendedEntities = $extendedEntities;
         $this->user             = $user;
+        $this->retweetedStatus  = $retweetedStatus;
     }
     
     /**
@@ -97,8 +109,17 @@ class Tweet
             ? $tweet['extended_entities']
             : null
         ;
+        $user = isset($tweet['user'])
+            ? User::fromArray($tweet['user'])
+            : null
+        ;
+        $retweetedStatus = isset($tweet['retweeted_status'])
+            ? RetweetedStatus::fromArray($tweet['retweeted_status'])
+            : null
+        ;
         
         return new self(
+            $tweet['id'],
             $tweet['text'],
             $tweet['lang'],
             $tweet['created_at'],
@@ -110,7 +131,8 @@ class Tweet
             $tweet['favorite_count'],
             $tweet['entities'],
             $extendedEntities,
-            $tweet['user']
+            $user,
+            $retweetedStatus
         );
     }
     
@@ -122,6 +144,7 @@ class Tweet
     public function toArray(): array
     {
         return [
+            'id'                => $this->id,
             'text'              => $this->text,
             'lang'              => $this->lang,
             'created_at'        => $this->createdAt,
@@ -133,12 +156,13 @@ class Tweet
             'favorite_count'    => $this->favoriteCount,
             'entities'          => $this->entities,
             'extended_entities' => $this->extendedEntities,
-            'user'              => $this->user
+            'user'              => $this->user,
+            'retweeted_status'  => $this->retweetedStatus
         ];
     }
     
     /**
-     * Return serielized Tweet object
+     * Return serialized Tweet object
      *
      * @return string
      */
@@ -146,6 +170,7 @@ class Tweet
     {
         return serialize(
             new self(
+                $this->id,
                 $this->text,
                 $this->lang,
                 $this->createdAt,
@@ -157,9 +182,16 @@ class Tweet
                 $this->favoriteCount,
                 $this->entities,
                 $this->extendedEntities,
-                $this->user
+                $this->user,
+                $this->retweetedStatus
             )
         );
+    }
+    
+    /** @return int */
+    public function getId(): int
+    {
+        return $this->text;
     }
     
     /** @return string */
@@ -228,9 +260,15 @@ class Tweet
         return $this->extendedEntities;
     }
     
-    /** @return array */
-    public function getUser(): array
+    /** @return User */
+    public function getUser(): User
     {
         return $this->user;
+    }
+    
+    /** @return RetweetedStatus|null */
+    public function getRetweetedStatus(): ? RetweetedStatus
+    {
+        return $this->retweetedStatus;
     }
 }

@@ -18,6 +18,7 @@ class StreamTweetArrayStub
         $factory = Factory::create();
 
         return [
+            'id'             => $factory->uuid(),
             'text'           => $factory->text(),
             'lang'           => $factory->languageCode(),
             'created_at'     => $factory->time('D M d H:m:s Z Y', 'now'),

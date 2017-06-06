@@ -3,7 +3,7 @@
 namespace Mineur\TwitterStreamApiTest\Stub;
 
 use Faker\Factory;
-use Mineur\TwitterStreamApi\Tweet;
+use Mineur\TwitterStreamApi\Model\Tweet;
 
 /**
  * Class TweetStub
@@ -23,6 +23,7 @@ class TweetEntityStub
         $factory = Factory::create();
 
         return self::create([
+            $factory->uuid(),                  /* uuid */
             $factory->text(),                /* text */
             $factory->languageCode(),        /* lang */
             $factory->dateTimeThisMonth(),   /* createdAt */
