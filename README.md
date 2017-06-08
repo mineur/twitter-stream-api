@@ -5,15 +5,16 @@
 [![Total Downloads](https://poser.pugx.org/mineur/twitter-stream-api/downloads)](https://packagist.org/packages/mineur/twitter-stream-api)
 
 Another Twitter Stream PHP library. For now it just works on public stream, 
-using the filter method.
-\
+using the filter method. 
+
 ## Index
 - [Installation](#installation)
 - [Basic init](#basic-initialization)
-    - [Callback method](#callback-metod)
+    - [Callback method](#callback-method)
     - [Filter by user](#filtering-tweets-by-user-id)
     - [Filter by language](#filtering-keywords-by-language)
 - [The Tweet object](#the-tweet-object)
+- [Integrations (Symfony)](#integrations)
 - [Tests](#run-tests)
 - [To-do](#todos)
 
@@ -114,6 +115,10 @@ $aTweet['text'];
 $tweet->serialized();
 ```
 
+## Integrations
+For Symfony integrations you can refer to this bundle: 
+[Mineur Twitter Stream Api Bundle](https://github.com/mineur/twitter-stream-api-bundle)
+
 ## Run tests
 ```php
 composer install
@@ -129,3 +134,5 @@ To check the coverage just add:
 * Add links of the filters in documentation
 * Test the first version of this library using Unit testing
 * Handle when a user removes a tweet on the fly.
+* Add `filter_level` feature
+* Add track `location` feature

@@ -5,6 +5,7 @@ namespace Mineur\TwitterStreamApi;
 use Mineur\TwitterStreamApi\Exception\EmptyRequiredParamsException;
 use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\Http\StreamClient;
+use Mineur\TwitterStreamApi\Model\Tweet;
 
 
 /**
@@ -62,7 +63,7 @@ class PublicStream
     {
         $language = $this->language ?? '';
         $keywords = $this->keywords ?? [];
-        $users    = $this->users ?? [];
+        $users    = $this->users    ?? [];
         
         if (empty($keywords) && empty($users)) {
             throw new EmptyRequiredParamsException(
@@ -74,7 +75,7 @@ class PublicStream
             'form_params' => [
                 'language' => $language,
                 'track'    =>  implode(',', $keywords),
-                'follow'    => implode(',', $users),
+                'follow'   => implode(',', $users),
             ],
         ]);
     }

@@ -5,7 +5,7 @@ namespace Mineur\TwitterStreamApiTest;
 use Mineur\TwitterStreamApi\Http\StreamClient;
 use Mineur\TwitterStreamApi\PublicStream;
 use Mockery\MockInterface;
-use Mineur\TwitterStreamApi\Tweet;
+use Mineur\TwitterStreamApi\Model\Tweet;
 use Mineur\TwitterStreamApiTest\Stub\StreamTweetArrayStub;
 use Mineur\TwitterStreamApiTest\Stub\TweetEntityStub;
 use Mineur\TwitterStreamApiTest\TestCase\UnitTestCase;
