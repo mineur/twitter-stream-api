@@ -122,11 +122,11 @@ For Symfony integrations you can refer to this bundle:
 ## Run tests
 ```php
 composer install
-./bin/vendor/phpunit
+./bin/phpunit
 ```
 To check the coverage just add:
 ```php
-./bin/vendor/phpunit --coverage-text
+./bin/phpunit --coverage-text
 ```
 
 ## Todo's
