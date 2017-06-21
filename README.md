@@ -1,5 +1,5 @@
 # Twitter Streaming API
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)]()
+[![License](https://poser.pugx.org/mineur/twitter-stream-api/license)](https://packagist.org/packages/mineur/twitter-stream-api)
 [![Build Status](https://travis-ci.org/mineur/twitter-stream-api.svg?branch=master)](https://travis-ci.org/mineur/twitter-stream-api)
 [![Code Climate](https://codeclimate.com/github/mineur/twitter-stream-api/badges/gpa.svg)](https://codeclimate.com/github/mineur/twitter-stream-api)
 [![Latest Unstable Version](https://poser.pugx.org/mineur/twitter-stream-api/v/unstable)](https://packagist.org/packages/mineur/twitter-stream-api)
