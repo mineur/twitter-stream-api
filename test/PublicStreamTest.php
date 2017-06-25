@@ -1,15 +1,24 @@
 <?php
 
+/*
+ * Mineur/twitter-stream-api package
+ *
+ * Feel free to contribute!
+ *
+ * @license MIT
+ * @author alexhoma <alexcm.14@gmail.com>
+ */
+
 namespace Mineur\TwitterStreamApiTest;
 
-use Mineur\TwitterStreamApi\Http\StreamClient;
-use Mineur\TwitterStreamApi\PublicStream;
 use Mockery\MockInterface;
+
+use Mineur\TwitterStreamApi\Http\StreamClient;
 use Mineur\TwitterStreamApi\Model\Tweet;
+use Mineur\TwitterStreamApi\PublicStream;
 use Mineur\TwitterStreamApiTest\Stub\StreamTweetArrayStub;
 use Mineur\TwitterStreamApiTest\Stub\TweetEntityStub;
 use Mineur\TwitterStreamApiTest\TestCase\UnitTestCase;
-
 
 final class PublicStreamTest extends UnitTestCase
 {

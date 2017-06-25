@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * Mineur/twitter-stream-api package
+ *
+ * Feel free to contribute!
+ *
+ * @license MIT
+ * @author alexhoma <alexcm.14@gmail.com>
+ */
+
 namespace Mineur\TwitterStreamApi\Http;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
-use GuzzleHttp\HandlerStack;
-
 
 /**
  * Class GuzzleHttpClient

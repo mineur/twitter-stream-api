@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * Mineur/twitter-stream-api package
+ *
+ * Feel free to contribute!
+ *
+ * @license MIT
+ * @author alexhoma <alexcm.14@gmail.com>
+ */
+
 namespace Mineur\TwitterStreamApi;
 
 use Mineur\TwitterStreamApi\Exception\EmptyRequiredParamsException;
 use Mineur\TwitterStreamApi\Http\GuzzleStreamClient;
 use Mineur\TwitterStreamApi\Http\StreamClient;
 use Mineur\TwitterStreamApi\Model\Tweet;
-
 
 /**
  * Class PublicStream
