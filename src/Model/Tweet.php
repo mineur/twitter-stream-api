@@ -199,13 +199,13 @@ class Tweet
     /** @return int */
     public function getId(): int
     {
-        return $this->id;
+        return (integer) $this->id;
     }
     
     /** @return string */
     public function getText(): string
     {
-        return $this->text;
+        return (string) $this->text;
     }
     
     /** @return string */
