@@ -199,7 +199,7 @@ class Tweet
     /** @return int */
     public function getId(): int
     {
-        return $this->text;
+        return $this->id;
     }
     
     /** @return string */
